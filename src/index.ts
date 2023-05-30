@@ -13,6 +13,7 @@ export { default as Mesh } from "./mesh";
 export * from "./obj";
 export * from "./paths";
 export { default as Plane } from "./plane";
+export * from "./polyline";
 export { default as Ray } from "./ray";
 export { default as Scene } from "./scene";
 export * from "./set";

@@ -1,7 +1,7 @@
 {
   "name": "@lnjs/core",
   "version": "0.4.0",
-  "description": "A JavaScript port of the 3D line rendering engine, ln",
+  "description": "A fork of ln.js that supports polylines",
   "main": "lib/index.js",
   "module": "es/index.js",
   "typings": "lib/index.d.ts",

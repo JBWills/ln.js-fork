@@ -1,8 +1,6 @@
 import Ray from "./ray";
 import { ShapeT } from "./shape";
 import Vector from "./vector";
-import { Axis } from "./axis";
-import Triangle from "./triangle"
 import { Path } from "./path";
 import { Paths } from "./paths";
 import { Box } from "./box";
@@ -48,7 +46,7 @@ function toPaths(path: Path | Path[]): Path[] {
   if (path.length === 0) {
     return []
   }
-  if (path[0] instanceof ln.Vector) {
+  if (path[0] instanceof Vector) {
     return [path as Path]
   }
   return path as Path[]

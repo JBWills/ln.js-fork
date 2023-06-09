@@ -15,8 +15,8 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "tsc src/index.ts --declaration --outDir lib",
-    "build:es": "tsc src/index.ts --declaration --outDir es --target ES2015 --module es2015",
+    "build:cjs": "tsc src/index.ts --declaration --outDir lib --target ES2022 --module es2022",
+    "build:es": "tsc src/index.ts --declaration --outDir es --target ES2022 --module es2022",
     "docs": "typedoc --out docs ./src --mode file && surge docs --domain lnjs.surge.sh",
     "prepublish": "npm run build"
   },
@@ -29,7 +29,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-typescript": "^1.0.0",
     "typedoc": "^0.14.0",
-    "typescript": "^3.2.2",
+    "typescript": "^4.9.5",
     "wavefront-obj-parser": "^2.0.1"
   }
 }

@@ -13,21 +13,21 @@ function toPolylines(polyline: Path | Path[]): Path[] {
   }
 
   if (Array.isArray(polyline[0])) {
-    return polyline as AnyLine[]
+    return polyline as Path[]
   }
 
-  return [polyline] as AnyLine[]
+  return [polyline] as Path[]
 }
 
 export function* segments(polylineArg: Path | Path[]): Generator<Segment> {
   const polylines = toPolylines(polylineArg)
 
   for (const polyline of polylines) {
-    let lastVertex: Vector
+    let lastVertex: Vector | undefined = undefined
 
     for (const vertex of polyline) {
       if (lastVertex !== undefined) {
-        yield Segment.from(lastVertex, vertex)
+        yield new Segment(lastVertex, vertex)
       }
 
       lastVertex = vertex
@@ -46,11 +46,11 @@ export function rayIntersectsPolyline(
 
   let closestHit: { hit: true; hitDistance: number } | undefined
   for (const polyline of polylines) {
-    let lastVertex: Vector
+    let lastVertex: Vector | undefined = undefined
 
     for (const vertex of polyline) {
       if (lastVertex !== undefined) {
-        const segment =  Segment.from(lastVertex, vertex)
+        const segment =  new Segment(lastVertex, vertex)
         const maybeHit = rayHitSegment(ray, segment)
         if (maybeHit) {
           closestHit = {
@@ -71,10 +71,10 @@ const coPlanerThreshold = 0.7
 const lengthErrorThreshold = 1e-3
 
 function rayHitSegment(ray: Ray, segment: Segment): number | undefined {
-  const rayDirection = V3.from(ray.direction)
-  const rayOrigin = V3.from(ray.origin)
-  const segmentDelta = segment.p2.minus(segment.p1)
-  const segmentStartToRayOrigin = segment.p1.minus(rayOrigin)
+  const rayDirection = ray.direction
+  const rayOrigin = ray.origin
+  const segmentDelta = segment.p2.sub(segment.p1)
+  const segmentStartToRayOrigin = segment.p1.sub(rayOrigin)
 
   if (
     Math.abs(segmentStartToRayOrigin.dot(rayDirection.cross(segmentDelta))) >= coPlanerThreshold
@@ -85,19 +85,19 @@ function rayHitSegment(ray: Ray, segment: Segment): number | undefined {
 
   const s =
     segmentStartToRayOrigin.cross(segmentDelta).dot(rayDirection.cross(segmentDelta)) /
-    rayDirection.cross(segmentDelta).magnitudeSquared
+    rayDirection.cross(segmentDelta).lengthSquared()
 
   if (s >= 0.0 && s <= 1.0) {
-    const distance = rayDirection.times(s)
+    const distance =rayDirection.mul( s)
     // Means we have an intersection
-    const intersection = rayOrigin.plus(distance)
+    const intersection = rayOrigin.add( distance)
 
     // See if this lies on the segment
     if (
       intersection.distSquared(segment.p1) + intersection.distSquared(segment.p2) <=
       segment.lengthSquared + lengthErrorThreshold
     ) {
-      return distance.magnitude
+      return distance.length()
     }
   }
 

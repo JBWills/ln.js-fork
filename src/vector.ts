@@ -54,24 +54,28 @@ export default class Vector implements Hashable {
     return new Vector(this.x / len, this.y / len, this.z / len);
   }
 
-  add(b: Vector): Vector {
+  add(b: Vector | number): Vector {
     let { x, y, z } = this;
-    return new Vector(x + b.x, y + b.y, z + b.z);
+    const [x2, y2, z2] = typeof b === "number" ? [b, b, b] : [b.x, b.y, b.z]
+    return new Vector(x + x2, y + y2, z + z2);
   }
 
-  sub(b: Vector): Vector {
+  sub(b: Vector | number): Vector {
     let { x, y, z } = this;
-    return new Vector(x - b.x, y - b.y, z - b.z);
+    const [x2, y2, z2] = typeof b === "number" ? [b, b, b] : [b.x, b.y, b.z]
+    return new Vector(x - x2, y - y2, z - z2);
   }
 
-  mul(b: Vector): Vector {
+  mul(b: Vector | number): Vector {
     let { x, y, z } = this;
-    return new Vector(x * b.x, y * b.y, z * b.z);
+    const [x2, y2, z2] = typeof b === "number" ? [b, b, b] : [b.x, b.y, b.z]
+    return new Vector(x * x2, y * y2, z * z2);
   }
 
-  div(b: Vector): Vector {
+  div(b: Vector | number): Vector {
     let { x, y, z } = this;
-    return new Vector(x / b.x, y / b.y, z / b.z);
+    const [x2, y2, z2] = typeof b === "number" ? [b, b, b] : [b.x, b.y, b.z]
+    return new Vector(x / x2, y / y2, z / z2);
   }
 
   addScalar(b: number): Vector {
@@ -123,6 +127,10 @@ export default class Vector implements Hashable {
 
   minComponent(): number {
     return Math.min(this.x, this.y, this.z);
+  }
+
+  distSquared(other: Vector) {
+    return this.sub(other).lengthSquared()
   }
 
   segmentDistance(v: Vector, w: Vector): number {

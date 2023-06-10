@@ -83,6 +83,7 @@ export default class Scene {
     let f = new ClipFilter(matrix, eye, this);
     // We're always filtering the same paths?
     paths = Paths.filterPaths(paths, f);
+    console.log({filterPaths: paths})
     if (step > 0) {
       paths = Paths.simplify(paths, 1e-6);
     }

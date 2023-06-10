@@ -29,4 +29,4 @@ export class ClipFilter implements FilterT {
   }
 }
 
-export const ClipBox = new Box(new Vector(-1, -1, -1), new Vector(1, 1, 1));
+export const ClipBox = new Box(new Vector(-100, -100, -100), new Vector(100, 100, 100));

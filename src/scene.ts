@@ -76,6 +76,7 @@ export default class Scene {
   ): PathsT {
     this.compile();
     let paths = this.paths();
+    console.log({paths})
     if (step > 0) {
       paths = Paths.chop(paths, step);
     }

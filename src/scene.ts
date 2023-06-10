@@ -7,6 +7,7 @@ import { Paths as PathsT } from "./paths";
 import * as Paths from "./paths";
 import { lookAt, Matrix, translate } from "./matrix";
 import { ClipFilter } from "./filter";
+import { Polyline } from './polyline'
 
 export default class Scene {
   shapes: Array<ShapeT>;
@@ -21,7 +22,8 @@ export default class Scene {
     for (const shape of this.shapes) {
       shape.compile();
     }
-    this.tree = new Tree(this.shapes);
+    const shapesWithoutLines = this.shapes.filter((shape) => !(shape instanceof Polyline))
+    this.tree = new Tree(shapesWithoutLines);
   }
 
   add(shape: ShapeT) {
